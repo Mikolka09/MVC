@@ -1,0 +1,56 @@
+﻿@model ConfiguredCancelableAsyncEnumerable<MVC.Data.Author>
+
+@section Scripts {
+<script src="https://jspm.dev/lodash@4"></script>
+}   
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
+    <p>
+        <a asp-action="Create">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    @Html.DisplayName(nameof(MVC.Data.Author.Name))
+                </th>
+                <th>
+                    @Html.DisplayName(nameof(MVC.Data.Author.Birthday))
+                </th>
+                <th>
+                    @Html.DisplayName(nameof(MVC.Data.Author.Email))
+                </th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @await foreach (var item in Model)
+            {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Birthday, "Date")
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+            }
+        </tbody>
+    </table>
+</body>
+</html>
