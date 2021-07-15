@@ -1,12 +1,7 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
-using Newtonsoft.Json;
-using System;
 using System.Collections.Generic;
-using System.Text;
-using System.Text.Json;
-using MVC.Data;
+using System.Linq;
 
 namespace MVC.Data
 {
@@ -15,7 +10,15 @@ namespace MVC.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
             : base(options)
         {
+            ChangeTracker.Tracked += ChangeTracker_Tracked;
+        }
 
+        private void ChangeTracker_Tracked(object sender, Microsoft.EntityFrameworkCore.ChangeTracking.EntityTrackedEventArgs e)
+        {
+            if(e.Entry.Entity is Book book && book.Codes == null)
+            {
+                book.Codes = new HashSet<string>();
+            }
         }
 
         public DbSet<Author> Authors { get; set; }
@@ -27,11 +30,12 @@ namespace MVC.Data
             builder.Entity<Book>(b =>
             {
                 b.Property(e => e.Codes).HasConversion<string>(
-                    array => System.Text.Json.JsonSerializer.Serialize(array, null),
-                    str => System.Text.Json.JsonSerializer.Deserialize<string[]>(str, null));
+                    set => System.Text.Json.JsonSerializer.Serialize(set, null),
+                    str => System.Text.Json.JsonSerializer.Deserialize<HashSet<string>>(str, null));
             });
         }
 
+        
         public DbSet<MVC.Data.Publisher> Publisher { get; set; }
     }
 }

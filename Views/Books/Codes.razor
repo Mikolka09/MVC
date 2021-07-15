@@ -1,0 +1,64 @@
+﻿@using MVC.Data
+@inject NavigationManager Navigator
+@inject ApplicationDbContext context
+
+<h3>Codes</h3>
+
+@if (book?.Codes != null)
+{
+    <ul>
+        @foreach (var code in book.Codes)
+        {
+            <li>
+                <div>@(code)</div>
+                <button class="btn btn-danger" @onclick="async ()=> await RemoveCode(code)" type="button">Remove</button>
+            </li>
+        }
+    </ul>
+}
+
+<input type="text" @bind="@newCode"/>
+<button class="btn btn-primary" type="button" @onclick="async ()=> await AddCode(newCode)">Add</button>
+
+<input id="Codes" name="Codes" hidden @bind ="@codes" />
+
+@code {
+
+    private string codes;
+
+    private string newCode;
+
+    private Book book;
+
+    private static Guid GetIdFroUrl(string url)
+    {
+        var uri = new Uri(url);
+        var path = uri.LocalPath;
+        var slashIdex = path.LastIndexOf('/');
+        var id = path.Substring(slashIdex + 1);
+        return Guid.Parse(id);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        var bookId = GetIdFroUrl(Navigator.Uri);
+        book = await context.Books.FindAsync(bookId);
+        codes = System.Text.Json.JsonSerializer.Serialize(book.Codes, null);
+    }
+
+    private async Task RemoveCode(string code)
+    {
+        book.Codes.Remove(code);
+        await context.SaveChangesAsync();
+        codes = System.Text.Json.JsonSerializer.Serialize(book.Codes, null);
+    }
+
+    private async Task AddCode(string code)
+    {
+        book.Codes.Add(code);
+        //context.Entry(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
+        await context.SaveChangesAsync();
+        newCode = string.Empty;
+        codes = System.Text.Json.JsonSerializer.Serialize(book.Codes, null);
+    }
+}

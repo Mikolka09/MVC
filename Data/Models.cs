@@ -19,7 +19,7 @@ namespace MVC.Data
         [Display(Name = "Book Discription", ShortName = "Description", Order = 1)]
         public string Description { get; set; }
 
-        public string[] Codes { get; set; }
+        public HashSet<string> Codes { get; set; }
 
         [DisplayFormat(ApplyFormatInEditMode = true, DataFormatString ="{0:Y}")]
         public DateTime DatePublish { get; set; }

@@ -29,7 +29,7 @@ namespace MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<EmailOptions>(Configuration.GetSection("Email"));
-
+            
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -38,6 +38,8 @@ namespace MVC
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddControllersWithViews();
+            //services.AddRazorPages();
+            services.AddServerSideBlazor();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -64,6 +66,7 @@ namespace MVC
 
             app.UseEndpoints(endpoints =>
             {
+                
                 endpoints.MapControllerRoute(
                     name: "int",
                     pattern: "{controller=Home}/Index/{id:int?}",
@@ -72,6 +75,7 @@ namespace MVC
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id:guid?}");
                 endpoints.MapRazorPages();
+                endpoints.MapBlazorHub();
             });
         }
     }

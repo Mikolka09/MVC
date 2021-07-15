@@ -4,6 +4,12 @@
     ViewData["Title"] = "Edit";
 }
 
+@section Scripts
+{
+    <link href="BlazorServer.styles.css" rel="stylesheet" />
+    <script src="~/_framework/blazor.server.js"></script>
+}
+
 <h1>Edit</h1>
 
 <h4>Book</h4>
@@ -33,11 +39,12 @@
                 <input asp-for="DatePublish" class="form-control" />
                 <span asp-validation-for="DatePublish" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Codes" class="control-label"></label>
-                <input asp-for="Codes" class="form-control" />
-                <span asp-validation-for="Codes" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+                    <label asp-for="Codes" class="control-label"></label>
+                    <input asp-for="Codes" class="form-control" />
+                    <span asp-validation-for="Codes" class="text-danger"></span>
+                </div>*@
+            <component type="typeof(MVC.Views.Books.Codes)" render-mode="ServerPrerendered" />
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />
             </div>
