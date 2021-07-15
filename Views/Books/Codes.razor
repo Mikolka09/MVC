@@ -56,7 +56,6 @@
     private async Task AddCode(string code)
     {
         book.Codes.Add(code);
-        //context.Entry(book).State = Microsoft.EntityFrameworkCore.EntityState.Modified;
         await context.SaveChangesAsync();
         newCode = string.Empty;
         codes = System.Text.Json.JsonSerializer.Serialize(book.Codes, null);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -95,6 +96,13 @@ namespace MVC.Controllers
 
             if (ModelState.IsValid)
             {
+                              
+                var codes = JsonSerializer.Deserialize <HashSet<string>>(book.Codes.First(), null);
+                book.Codes.Clear();
+                foreach (var item in codes)
+                {
+                    book.Codes.Add(item);
+                }
                 try
                 {
                     _context.Update(book);
