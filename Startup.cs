@@ -1,18 +1,13 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI;
+using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVC.Data;
 using MVC.Options;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MVC
 {
@@ -29,7 +24,7 @@ namespace MVC
         public void ConfigureServices(IServiceCollection services)
         {
             services.Configure<EmailOptions>(Configuration.GetSection("Email"));
-            
+
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
@@ -40,6 +35,7 @@ namespace MVC
             services.AddControllersWithViews();
             //services.AddRazorPages();
             services.AddServerSideBlazor();
+            services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,8 +51,9 @@ namespace MVC
                 app.UseExceptionHandler("/Home/Error");
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
+                app.UseHttpsRedirection();
             }
-            app.UseHttpsRedirection();
+            
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -66,11 +63,11 @@ namespace MVC
 
             app.UseEndpoints(endpoints =>
             {
-                
+
                 endpoints.MapControllerRoute(
                     name: "int",
                     pattern: "{controller=Home}/Index/{id:int?}",
-                    defaults: new { action = "Index With Parametr"});
+                    defaults: new { action = "Index With Parametr" });
                 endpoints.MapControllerRoute(
                     name: "default",
                     pattern: "{controller=Home}/{action=Index}/{id:guid?}");
