@@ -24,7 +24,7 @@
         @foreach (var item in Model)
         {
         <tr>
-            <td><img style="width:50px" src="@("/image/" + item.CoverImageUrl)"/></td>
+            <td><img style="width:50px"  src="@(item.CoverImageUrl)"/></td>
             <td>@Html.DisplayFor(modelItem => item.Title)</td>
             <td>@Html.DisplayFor(modelItem => item.Description)</td>
             <td>@Html.DisplayFor(modelItem => item.DatePublish) </td>

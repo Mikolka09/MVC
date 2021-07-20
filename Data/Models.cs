@@ -9,6 +9,7 @@ namespace MVC.Data
         public Guid Id { get; set; }
 
         [DataType(DataType.ImageUrl)]
+        [Display(Name = "Image Book", ShortName = "CoverImageUrl", Order = 1)]
         public Uri CoverImageUrl { get; set; }
 
         [Required]

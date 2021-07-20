@@ -11,14 +11,14 @@
         {
             <li>
                 <div>@(code)</div>
-                <button class="btn btn-danger" @onclick="async ()=> await RemoveCode(code)" type="button">Remove</button>
+                <button class="btn btn-danger" @onclick="async ()=> RemoveCode(code)" type="button">Remove</button>
             </li>
         }
     </ul>
 }
 
 <input type="text" @bind="@newCode"/>
-<button class="btn btn-primary" type="button" @onclick="async ()=> await AddCode(newCode)">Add</button>
+<button class="btn btn-primary" type="button" @onclick="async ()=> AddCode(newCode)">Add</button>
 
 <input id="Codes" name="Codes" hidden @bind ="@codes" />
 
@@ -46,18 +46,18 @@
         codes = System.Text.Json.JsonSerializer.Serialize(book.Codes, null);
     }
 
-    private async Task RemoveCode(string code)
+    private string RemoveCode(string code)
     {
         book.Codes.Remove(code);
-        await context.SaveChangesAsync();
-        codes = System.Text.Json.JsonSerializer.Serialize(book.Codes, null);
+        //await context.SaveChangesAsync();
+        return codes = System.Text.Json.JsonSerializer.Serialize(book.Codes, null);
     }
 
-    private async Task AddCode(string code)
+    private string AddCode(string code)
     {
         book.Codes.Add(code);
-        await context.SaveChangesAsync();
+        //await context.SaveChangesAsync();
         newCode = string.Empty;
-        codes = System.Text.Json.JsonSerializer.Serialize(book.Codes, null);
+        return codes = System.Text.Json.JsonSerializer.Serialize(book.Codes, null);
     }
 }
