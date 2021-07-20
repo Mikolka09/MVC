@@ -36,6 +36,6 @@ namespace MVC.Data
         }
 
         
-        public DbSet<MVC.Data.Publisher> Publisher { get; set; }
+        public DbSet<Publisher> Publisher { get; set; }
     }
 }
