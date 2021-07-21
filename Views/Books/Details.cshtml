@@ -3,7 +3,17 @@
 @{
     ViewData["Title"] = "Details";
     Uri urlAdd = new Uri(@"file:///D:\Users\MIKOLKA\Empty\MVC\MVC\wwwroot" + Model.CoverImageUrl);
+
+    var request = Context.Request;
+
+    string BuildAuthorUrl(Guid id)
+        => new UriBuilder(request.Scheme,
+                       request.Host.Host,
+                       request.Host.Port.GetValueOrDefault(),
+                       Url.Content($"~/Authors/Details/{id}")).Uri.AbsoluteUri;
 }
+
+
 
 @section MetaTags
 {
@@ -12,6 +22,7 @@
     <open-graph-books-book title="@Model.Title"
                            isbn="0-7356-1957-6"
                            language="en"
+                           author-urls="@Model.Authors.Select(a => BuildAuthorUrl(a.Id))"
                            main-image="@(new OpenGraphImage(urlAdd))"
                            release-date="@Model.DatePublish" />
 }

@@ -4,10 +4,7 @@ using Microsoft.Extensions.Options;
 using MVC.Models;
 using MVC.Options;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace MVC.Controllers
 {
@@ -40,10 +37,21 @@ namespace MVC.Controllers
             return View();
         }
 
+        //[Route("Error", Name = "Error"), HttpGet, HttpPost]
+        //[Route("[area]/[controller]/[action]", Name = "Error"), HttpGet, HttpPost]
+        [Route("[action]", Name = "Error"), HttpGet, HttpPost]
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        [HttpGet("~/[action]")]
+        [ActionName("NotFound")]
+        public IActionResult NotFoundView()
+        {
+            ViewData["Title"] = "Page not Found";
+            return View();
         }
     }
 }

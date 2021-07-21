@@ -63,16 +63,25 @@ namespace MVC
 
             app.UseEndpoints(endpoints =>
             {
-
+                //endpoints.MapControllerRoute(
+                //    name: "int",
+                //    pattern: "{controller=Home}/Index/{id:int?}",
+                //    defaults: new { action = "Index With Parametr" });
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id:guid?}");
+                endpoints.MapAreaControllerRoute(
+                    name: "CheckOut",
+                    areaName: "ShoppingCart",
+                    pattern: "CheckOut",
+                    defaults: new { controller = "CheckOut", action = "Index"});
                 endpoints.MapControllerRoute(
-                    name: "int",
-                    pattern: "{controller=Home}/Index/{id:int?}",
-                    defaults: new { action = "Index With Parametr" });
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id:guid?}");
+                    name: "Areas",
+                    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapDefaultControllerRoute();
                 endpoints.MapRazorPages();
                 endpoints.MapBlazorHub();
+                endpoints.MapFallbackToController("NotFound", "Home");
             });
         }
     }

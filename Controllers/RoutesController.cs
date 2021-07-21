@@ -8,14 +8,17 @@ using System.Threading.Tasks;
 
 namespace MVC.Controllers
 {
+    [Route("CustomRoutes")]
     public class RoutesController : Controller
     {
+        [Route("~/CustomIndex")]
         public object Index()
         {
-            return RouteData
-                .Routers
-                .OfType<RouteCollection>()
-                .FirstOrDefault();
+            //return RouteData
+            //    .Routers
+            //    .OfType<RouteCollection>()
+            //    .FirstOrDefault();
+            return "Routes";
         }
     }
 }
