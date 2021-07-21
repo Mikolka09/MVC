@@ -11,14 +11,14 @@
         {
             <li>
                 <div>@(code)</div>
-                <button class="btn btn-danger" @onclick="async ()=> RemoveCode(code)" type="button">Remove</button>
+                <button class="btn btn-danger" @onclick="()=> RemoveCode(code)" type="button">Remove</button>
             </li>
         }
     </ul>
 }
 
 <input type="text" @bind="@newCode"/>
-<button class="btn btn-primary" type="button" @onclick="async ()=> AddCode(newCode)">Add</button>
+<button class="btn btn-primary" type="button" @onclick="()=> AddCode(newCode)">Add</button>
 
 <input id="Codes" name="Codes" hidden @bind ="@codes" />
 
