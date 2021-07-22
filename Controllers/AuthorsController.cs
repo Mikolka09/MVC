@@ -23,6 +23,7 @@ namespace MVC.Controllers
         // GET: Authors
         public IActionResult Index(CancellationToken cancellationToken)
         {
+            TempData.Keep();
             return View(_context.Authors.AsAsyncEnumerable().WithCancellation(cancellationToken));
         }
 
@@ -62,6 +63,8 @@ namespace MVC.Controllers
                 author.Id = Guid.NewGuid();
                 _context.Add(author);
                 await _context.SaveChangesAsync();
+                TempData["NewAuthorName"] = author.Name;
+                HttpContext.Session.Set("NewAuthorName", System.Text.Encoding.Default.GetBytes(author.Name));
                 return RedirectToAction(nameof(Index));
             }
             return View(author);

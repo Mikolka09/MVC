@@ -53,5 +53,15 @@ namespace MVC.Controllers
             ViewData["Title"] = "Page not Found";
             return View();
         }
+
+        [HttpPost]
+        public IActionResult Json()
+        {
+            return Json(new
+            {
+                Id = Guid.NewGuid(),
+                Timestamp = DateTime.Now
+            });
+        }
     }
 }

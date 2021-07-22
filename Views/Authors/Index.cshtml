@@ -2,6 +2,10 @@
 
 @{
     ViewData["Title"] = "Authors";
+
+    var createdName = TempData["NewAuthorName"];
+
+    //TempData.TryGetValue("NewAuthorName", out object createdName);
 }
 
 @section Scripts {
@@ -19,6 +23,12 @@
     <p>
         <a asp-action="Create">Create New</a>
     </p>
+    @if (createdName != null)
+    {
+        <div class="alert alert-success">
+            Just created @createdName
+        </div>
+    }
     <table class="table">
         <thead>
             <tr>

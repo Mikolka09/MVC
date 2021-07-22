@@ -11,7 +11,8 @@ namespace MVC.Areas.Shopping_Cart.Controllers
     {
         public IActionResult Index()
         {
-            ViewData["Title"] = "Cart";
+            ViewBag.Title = "Cart";
+            //ViewData["Title"] = "Cart";
             return View();
         }
     }

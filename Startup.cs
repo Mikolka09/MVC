@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using MVC.Data;
 using MVC.Options;
+using System;
 
 namespace MVC
 {
@@ -32,7 +33,15 @@ namespace MVC
 
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
-            services.AddControllersWithViews();
+            services.AddControllersWithViews().AddXmlDataContractSerializerFormatters();
+
+            services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(10);
+                options.Cookie.HttpOnly = true;
+                //options.Cookie.IsEssential = true;
+            });
+
             //services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<IActionContextAccessor, ActionContextAccessor>();
@@ -53,10 +62,12 @@ namespace MVC
                 app.UseHsts();
                 app.UseHttpsRedirection();
             }
-            
+
             app.UseStaticFiles();
 
             app.UseRouting();
+
+            app.UseSession();
 
             app.UseAuthentication();
             app.UseAuthorization();
@@ -74,7 +85,7 @@ namespace MVC
                     name: "CheckOut",
                     areaName: "ShoppingCart",
                     pattern: "CheckOut",
-                    defaults: new { controller = "CheckOut", action = "Index"});
+                    defaults: new { controller = "CheckOut", action = "Index" });
                 endpoints.MapControllerRoute(
                     name: "Areas",
                     pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
