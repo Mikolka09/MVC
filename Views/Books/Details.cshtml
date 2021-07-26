@@ -10,7 +10,8 @@
         => new UriBuilder(request.Scheme,
                        request.Host.Host,
                        request.Host.Port.GetValueOrDefault(),
-                       Url.Content($"~/Authors/Details/{id}")).Uri.AbsoluteUri;
+                       Url.Content($"/Authors/Details/{id}")).Uri.AbsoluteUri;
+
 }
 
 
@@ -18,13 +19,20 @@
 @section MetaTags
 {
     @*<open-graph-book title="@Model.Title" main-image="@(new OpenGraphImage(Model.CoverImageUrl))" release-date="@Model.DatePublish" />*@
-    <meta property="og:type" content="books.book">
+    <meta property="og:type" content="book">
     <open-graph-books-book title="@Model.Title"
                            isbn="0-7356-1957-6"
                            language="en"
-                           author-urls="@Model.Authors.Select(a => BuildAuthorUrl(a.Id))"
+                           author-urls="@Model.Authors.Select(a => BuildAuthorUrl(a.Id).ToString())"
                            main-image="@(new OpenGraphImage(urlAdd))"
                            release-date="@Model.DatePublish" />
+
+    <twitter-card-summary-large-image username="@@NickMatiosTW"
+                                      title="@Model.Title"
+                                      site="@(new Uri(@"https://ru.wikipedia.org/wiki"))"
+                                      creator="Nick IT Step"
+                                      image="@new Boxed.AspNetCore.TagHelpers.Twitter.TwitterImage(urlAdd)"
+                                      description="@Model.Description" />
 }
 
 <h1>Details</h1>

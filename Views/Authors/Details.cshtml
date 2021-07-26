@@ -1,5 +1,29 @@
 ﻿@model MVC.Data.Author
 
+@{
+    ViewData["Title"] = "Details";
+    Uri urlAdd = new Uri(@"https://cdn.wealthygorilla.com/wp-content/uploads/2018/11/The-Richest-Authors-in-the-World.jpg");
+    Uri urlAddAuth = new Uri(@"https://ru.wikipedia.org/wiki");
+}
+
+
+
+
+@section MetaTags
+{
+    <meta property="og:type" content="book">
+    <open-graph-books-author title="@Model.Name"
+                             official-site-url="@urlAddAuth"
+                             description="@(Model.Birthday.ToLongDateString())"
+                             main-image="@(new OpenGraphImage(urlAdd))" />
+
+    <twitter-card-summary-large-image username="@@NickMatiosTW"
+                                      site="@(new Uri(@"https://ru.wikipedia.org/wiki"))"
+                                      creator="Nick IT Step"
+                                      image="@new Boxed.AspNetCore.TagHelpers.Twitter.TwitterImage(urlAdd)"
+                                      description="My page description Authors" />
+}
+
 <!DOCTYPE html>
 
 <html>
@@ -9,34 +33,34 @@
 </head>
 <body>
 
-<div>
-    <h4>Author</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Name)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Birthday)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Birthday, "Date")
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Email)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.Email)
-        </dd>
-    </dl>
-</div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Books" asp-route-id="@Model.Id">Edit Books</a> |
-    <a asp-action="Index">Back to List</a>
-</div>
+    <div>
+        <h4>Author</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Name)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Name)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Birthday)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Birthday, "Date")
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+        <a asp-action="Books" asp-route-id="@Model.Id">Edit Books</a> |
+        <a asp-action="Index">Back to List</a>
+    </div>
 </body>
 </html>

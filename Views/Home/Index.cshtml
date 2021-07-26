@@ -2,8 +2,19 @@
     ViewData["Title"] = "Home Page";
     var options = ViewBag?.EmailOptions;
 
+    Uri addSite = new Uri(@"https://i.stack.imgur.com/wsz3a.jpg");
+
 }
 
+@section MetaTags
+{
+    <meta property="og:type" content="books.book">
+    <open-graph-website site-name="My Website - MVC"
+                        title="@ViewData["Title"]"
+                        main-image="@(new OpenGraphImage(addSite))"
+                        determiner="Blank"/>
+
+}
 
 
 <div class="text-center">
